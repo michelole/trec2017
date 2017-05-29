@@ -16,7 +16,8 @@ public final class TrecConfig {
     public static final String ELASTIC_HOSTNAME = getString("ELASTIC_HOSTNAME");
     public static final int ELASTIC_PORT = 9300;
     
-    
+    public static final String GSHEETS_APIKEY = getString("GSHEETS_APIKEY");
+    public static final String GSHEETS_SHEETID = getString("GSHEETS_SHEETID");
 
 
     /* DATA - MEDLINE */
