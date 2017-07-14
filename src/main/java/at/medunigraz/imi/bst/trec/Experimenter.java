@@ -30,6 +30,7 @@ public class Experimenter {
 			exp.start();
 			try {
 				exp.join();
+				exp.writeFullStatsToCSV();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

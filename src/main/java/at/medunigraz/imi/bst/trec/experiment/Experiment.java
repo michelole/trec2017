@@ -31,6 +31,8 @@ public class Experiment extends Thread {
 	
 	private GoldStandard goldStandard;
 	
+	private TrecEval trecEval;
+	
 	public static enum Task {
 		CLINICAL_TRIALS, PUBMED
 	}
@@ -67,18 +69,22 @@ public class Experiment extends Thread {
 		tw.close();
 
 		File goldStandard = new File(CSVStatsWriter.class.getResource("/gold-standard/" + getExperimentId() + ".qrels").getPath());
-		TrecEval te = new TrecEval(goldStandard, output);
+		trecEval = new TrecEval(goldStandard, output);
 
-		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + getExperimentId() + ".xml"));
-		xsw.write(te.getMetrics());
-		xsw.close();
-
+		LOG.info("Got NDCG: " + trecEval.getNDCG() + " for collection " + name);
+		LOG.trace(trecEval.getMetricsByTopic("all"));
+	}
+	
+	public void writeFullStatsToCSV() {
 		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + getExperimentId() + ".csv"));
-		csw.write(te.getMetrics());
+		csw.write(trecEval.getMetrics());
 		csw.close();
-
-		LOG.info("Got NDCG: " + te.getNDCG() + " for collection " + name);
-		LOG.trace(te.getMetricsByTopic("all"));
+	}
+	
+	public void writeFullStatsToXML() {
+		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + getExperimentId() + ".xml"));
+		xsw.write(trecEval.getMetrics());
+		xsw.close();
 	}
 	
 	@Deprecated

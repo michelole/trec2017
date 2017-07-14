@@ -29,6 +29,8 @@ public class RunnerDemo {
 			exp.start();
 			try {
 				exp.join();
+				exp.writeFullStatsToCSV();
+				exp.writeFullStatsToXML();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
